@@ -2,7 +2,7 @@ import {useRef, useState} from 'react'
 import reactLogo from './assets/react.svg'
 import '../public/css/output.css'
 
-const Api_Key = "3478d61ab27cee717ac22f4820d4ee25";
+const Api_Key = "";
 
 function App() {
     const inputRef = useRef(null);
@@ -46,6 +46,7 @@ function App() {
     ];
 
     const fetchWeather = async () => {
+        let Api_key = "3478d61ab27cee717ac22f4820d4ee25";
         const URL = `https://api.openweathermap.org/data/2.5/weather?q=${inputRef.current.value}&units=metric&appid=${Api_key}`;
         setLoading(true);
         fetch(URL)
@@ -84,6 +85,55 @@ function App() {
                 <button onClick={fetchWeather}>
                     <img src="https://cdn-icons-png.flaticon.com/512/639/639375.png" alt="search" className="w-10"/>
                 </button>
+                </div>
+                <div className={`duration-300 delay-75 overflow-hidden ${showWeather ? "h-[27rem]" : "h-0"}`}>
+                    <div
+                        className={`duration-300 delay-75  overflow-hidden
+         ${showWeather ? "h-[27rem]" : "h-0"}`}
+                    >
+                        {loading ? (
+                            <div className="grid place-items-center h-full">
+                                <img
+                                    src="https://cdn-icons-png.flaticon.com/512/1477/1477009.png"
+                                    alt="..."
+                                    className="w-14 mx-auto mb-2 animate-spin"
+                                />
+                            </div>
+                        ) : (
+                            showWeather && (
+                                <div className="text-center flex flex-col gap-6 mt-10">
+                                    {apiData && (
+                                        <p className="text-xl font-semibold">
+                                            {apiData?.name + "," + apiData?.sys?.country}
+                                        </p>
+                                    )}
+                                    <img
+                                        src={showWeather[0]?.img}
+                                        alt="..."
+                                        className="w-52 mx-auto"
+                                    />
+                                    <h3 className="text-2xl font-bold text-zinc-800">
+                                        {showWeather[0]?.type}
+                                    </h3>
+
+                                    {apiData && (
+                                        <>
+                                            <div className="flex justify-center">
+                                                <img
+                                                    src="https://cdn-icons-png.flaticon.com/512/7794/7794499.png"
+                                                    alt="..."
+                                                    className="h-9 mt-1"
+                                                />
+                                                <h2 className="text-4xl font-extrabold">
+                                                    {apiData?.main?.temp}&#176;C
+                                                </h2>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            )
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
